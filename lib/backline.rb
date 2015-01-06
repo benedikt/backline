@@ -1,5 +1,8 @@
+require 'rugged'
+
 require 'backline/version'
+require 'backline/repository'
 
 module Backline
-  # Your code goes here...
+  class Error < StandardError; end
 end
