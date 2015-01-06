@@ -14,7 +14,7 @@ module Backline
     end
 
     def initialize(path)
-      @repository = Rugged::Repository.bare(path)
+      @repository = Rugged::Repository.new(path)
     rescue Rugged::OSError => e
       raise(Backline::Error, e.message)
     end

@@ -7,7 +7,7 @@ describe Backline::Repository do
   after { FileUtils.rm_rf(repository_path) }
 
   describe '.new' do
-    before { Rugged::Repository.init_at(repository_path, :bare) }
+    before { Rugged::Repository.init_at(repository_path) }
 
     it 'should open the repository' do
       expect(described_class.new(repository_path))
