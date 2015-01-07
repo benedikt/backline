@@ -103,15 +103,17 @@ describe Backline::Repository do
 
     describe '#find' do
       it 'should find the record' do
-        expect(subject.find(dummy_class, 1))
-          .to be_kind_of(dummy_class)
+        model = subject.find(dummy_class, 1)
+        expect(model).to be_kind_of(dummy_class)
+        expect(model.id).to eq('1')
       end
     end
 
     describe '#all' do
       it 'should find the records' do
-        expect(subject.all(dummy_class))
-          .to match([an_instance_of(dummy_class), an_instance_of(dummy_class)])
+        models = subject.all(dummy_class)
+        expect(models).to match([an_instance_of(dummy_class), an_instance_of(dummy_class)])
+        expect(models.map(&:id)).to eq(['1', '2'])
       end
     end
   end

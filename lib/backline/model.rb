@@ -20,5 +20,7 @@ module Backline
 
       yield self if block_given?
     end
+
+    attr_accessor :id
   end
 end

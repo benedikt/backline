@@ -26,14 +26,14 @@ module Backline
 
     def find(type, path)
       tree = subtree_for(type)
-      oid = tree.path(path.to_s)[:oid]
-      load_from_oid(type, oid)
+      entry = tree.path(path.to_s)
+      load_from_entry(type, entry)
     end
 
     def all(type)
       tree = subtree_for(type)
       tree.enum_for(:each_blob).map do |entry|
-        load_from_oid(type, entry[:oid])
+        load_from_entry(type, entry)
       end
     end
 
@@ -49,9 +49,11 @@ module Backline
       repository.head.target.tree
     end
 
-    def load_from_oid(type, oid)
-      content = repository.lookup(oid).content
-      type.load(content)
+    def load_from_entry(type, entry)
+      content = repository.lookup(entry[:oid]).content
+      type.load(content).tap do |model|
+        model.id = entry[:name]
+      end
     end
 
     def subtree_for(type)
