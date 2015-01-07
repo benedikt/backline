@@ -1,7 +1,7 @@
 require 'active_model'
 
-require 'backline/model/attributes'
-require 'backline/model/persistence'
+require 'backline/attributes'
+require 'backline/persistence'
 
 module Backline
   module Model

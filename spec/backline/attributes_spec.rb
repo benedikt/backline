@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Backline::Model::Attributes do
+describe Backline::Attributes do
 
   let(:dummy_class) do
     Class.new do
-      include Backline::Model::Attributes
+      include Backline::Attributes
     end
   end
 

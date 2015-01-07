@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Backline::Model::Attributes::Attribute do
+describe Backline::Attributes::Attribute do
   subject { described_class.new(:foo, bar: :baz) }
 
   describe '#name' do

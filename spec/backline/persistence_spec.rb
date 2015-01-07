@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Backline::Model::Persistence do
+describe Backline::Persistence do
 
   let(:dummy_class) do
     Class.new do
