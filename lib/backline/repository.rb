@@ -1,3 +1,5 @@
+require 'backline/transaction'
+
 module Backline
   class Repository
 
@@ -14,7 +16,7 @@ module Backline
     end
 
     def initialize(path)
-      @repository = Rugged::Repository.new(path)
+      @git = Rugged::Repository.new(path)
       yield self if block_given?
     rescue Rugged::OSError => e
       raise(Backline::Error, e.message)
@@ -37,20 +39,33 @@ module Backline
       end
     end
 
-  private
+    def transaction(message = "Commit generated using Backline")
+      Transaction.new(self).tap do |transaction|
+        if block_given?
+          yield transaction
+          transaction.commit(message)
+        end
+      end
+    end
 
-    attr_reader :repository
+    attr_reader :git
+
+    def path_for(model)
+      "#{mapping[model.class]}/#{model.id}"
+    end
+
+  private
 
     def mapping
       @mapping ||= {}
     end
 
     def tree
-      repository.head.target.tree
+      git.head.target.tree
     end
 
     def load_from_entry(type, entry)
-      content = repository.lookup(entry[:oid]).content
+      content = git.lookup(entry[:oid]).content
       type.load(content).tap do |model|
         model.id = entry[:name]
       end
@@ -58,7 +73,7 @@ module Backline
 
     def subtree_for(type)
       oid = tree.path(mapping[type])[:oid]
-      repository.lookup(oid)
+      git.lookup(oid)
     end
 
   end
