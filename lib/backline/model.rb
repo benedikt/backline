@@ -1,6 +1,7 @@
 require 'active_model'
 
 require 'backline/model/attributes'
+require 'backline/model/persistence'
 
 module Backline
   module Model
@@ -8,6 +9,7 @@ module Backline
     include ActiveModel::Model
 
     include Attributes
+    include Persistence
 
     def initialize(attributes = {})
       attributes.each do |name, value|
