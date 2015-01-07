@@ -29,6 +29,13 @@ describe Backline::Model::Attributes do
     end
   end
 
+  describe '.attribute_names' do
+    it 'should return the attribute names' do
+      dummy_class.attribute(:foo)
+      expect(dummy_class.attribute_names).to eq(['foo'])
+    end
+  end
+
   describe '#read_attribute' do
     before do
       subject.attributes['foo'] = :bar

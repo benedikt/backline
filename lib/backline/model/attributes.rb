@@ -6,16 +6,20 @@ module Backline
       extend ActiveSupport::Concern
 
       included do
-        class_attribute :attributes
+        class_attribute :attributes, instance_reader: false
         self.attributes = {}
       end
 
       module ClassMethods
         def attribute(name, options = {})
           Attribute.new(name, options.merge(model_class: self)).tap do |attribute|
-            attributes[name] = attribute
+            attributes[attribute.name] = attribute
             generate_accessors(attribute)
           end
+        end
+
+        def attribute_names
+          attributes.keys
         end
 
       private
@@ -55,7 +59,7 @@ module Backline
       end
 
       def attributes
-        @attributes ||= {}
+        @attributes ||= {}
       end
     end
   end
