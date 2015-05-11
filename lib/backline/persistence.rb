@@ -4,7 +4,8 @@ module Backline
 
     module ClassMethods
       def load(blob)
-        attributes = YAML.safe_load(blob)
+        attributes = serializer.load(blob)
+
         new(attributes.slice(*attribute_names)).tap do |model|
           model.id = blob.path
         end
@@ -13,7 +14,7 @@ module Backline
       end
 
       def dump(model)
-        YAML.dump(model.attributes)
+        serializer.dump(model.attributes)
       end
     end
   end

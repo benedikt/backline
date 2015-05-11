@@ -2,6 +2,7 @@ require 'active_model'
 
 require 'backline/attributes'
 require 'backline/persistence'
+require 'backline/serializer'
 
 module Backline
   module Model
@@ -9,6 +10,7 @@ module Backline
     include ActiveModel::Model
 
     include Attributes
+    include Serializer
     include Persistence
 
     def initialize(attributes = {})
