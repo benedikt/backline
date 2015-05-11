@@ -5,7 +5,9 @@ module Backline
     module ClassMethods
       def load(blob)
         attributes = YAML.safe_load(blob)
-        new(attributes.slice(*attribute_names))
+        new(attributes.slice(*attribute_names)).tap do |model|
+          model.id = blob.path
+        end
       rescue StandardError => e
         raise(Backline::Error, e.message)
       end

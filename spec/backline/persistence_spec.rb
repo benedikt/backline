@@ -16,7 +16,7 @@ describe Backline::Persistence do
   end
 
   describe '#load' do
-    let(:blob) { "---\nfoo: foo\nbar: bar\nbaz: baz\n" }
+    let(:blob) { Backline::Blob.new('foo', "---\nfoo: foo\nbar: bar\nbaz: baz\n") }
 
     subject { dummy_class.load(blob) }
 

@@ -1,4 +1,5 @@
 require 'backline/transaction'
+require 'backline/blob'
 
 module Backline
   class Repository
@@ -29,13 +30,16 @@ module Backline
     def find(type, path)
       tree = subtree_for(type)
       entry = tree.path(path.to_s)
-      load_from_entry(type, entry)
+      blob = blob_from_entry(entry)
+
+      type.load(blob)
     end
 
     def all(type)
       tree = subtree_for(type)
       tree.enum_for(:each_blob).map do |entry|
-        load_from_entry(type, entry)
+        blob = blob_from_entry(entry)
+        type.load(blob)
       end
     end
 
@@ -64,11 +68,13 @@ module Backline
       git.head.target.tree
     end
 
-    def load_from_entry(type, entry)
+    def blob_from_entry(entry)
       content = git.lookup(entry[:oid]).content
-      type.load(content).tap do |model|
-        model.id = entry[:name]
-      end
+      Backline::Blob.new(entry[:name], content)
+    end
+
+    def load_from_blob(type, blob)
+      type.load(blob)
     end
 
     def subtree_for(type)
