@@ -1,4 +1,5 @@
 require 'backline/serializer/yaml'
+require 'backline/serializer/yaml_frontmatter'
 
 module Backline
   module Serializer
