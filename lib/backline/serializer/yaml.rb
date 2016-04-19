@@ -1,3 +1,5 @@
+require 'yaml'
+
 module Backline
   module Serializer
     module YAML
